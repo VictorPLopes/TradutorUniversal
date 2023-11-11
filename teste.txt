@@ -1,0 +1,6 @@
+algoritmo
+var
+inicio
+
+
+fimalgoritmo
