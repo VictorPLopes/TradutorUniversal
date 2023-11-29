@@ -37,7 +37,7 @@ def add_linha(i, var="i", valor="0", ind="0", operacao="+", condicao="i<10"):
 
 
 
-## função referente a criação de arquivo.c apartir das leituras feitas pelo
+## função referente a criação de template.c a partir das leituras feitas pelo
 ## interpretador sintatico e semantico do visualAlg
 
 def add_arquivo_c(resultado_sintatico):
@@ -83,7 +83,7 @@ def add_arquivo_c(resultado_sintatico):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
 
-nome_arquivo = "arquivo.c"
+nome_arquivo = "template.c"
 
 with open(nome_arquivo, "w") as arquivo:
     arquivo.write("")
