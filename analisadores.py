@@ -11,7 +11,6 @@ def analise_lexica(
 ):
     palavras_aceitas = []  # Lista de palavras aceitas, inicialmente vazia
     palavras_rejeitadas = []  # Lista de palavras rejeitadas, inicialmente vazia
-    categorizacao = [] # Categorização das palavras aceitas
     
     for palavra in palavras:  # Para cada palavra na lista de palavras
         estado_atual = estado_inicial  # Volta para o estado inicial
@@ -43,14 +42,11 @@ def analise_lexica(
             # Se alcançar o estado final e foi solicitada a análise léxica
             if estado_atual != palavras_reservadas:  # Se não for o estado final das palavras reservadas
                 palavras_aceitas.append([palavra, tokens[estado_atual]])  # Adiciona a palavra e o token à tabela de símbolos
-                categorizacao.append(tokens[estado_atual]) # Adiciona a categoria da palavra à lista de categorização
                 continue  # Vai para a próxima palavra
             if palavra in tokens[palavras_reservadas]:  # Se a palavra estiver na lista de palavras reservadas
                 palavras_aceitas.append([palavra, palavra])  # Adiciona a palavra e o token à tabela de símbolos
-                categorizacao.append(palavra) # Adiciona a categoria da palavra à lista de categorização
             else:  # Se a palavra não estiver na lista de palavras reservadas, é um nome de variável
                 palavras_aceitas.append([palavra, "var"])  # Adiciona a palavra e o token à tabela de símbolos
-                categorizacao.append([palavra, "var"])  # Adiciona a palavra à lista de categorização
 
         except:  # Se ocorrer uma exceção
             # Rejeita a palavra
@@ -58,7 +54,7 @@ def analise_lexica(
             continue  # Vai para a próxima palavra
 
     # Retorna a lista de palavras reconhecidas
-    return palavras_rejeitadas, palavras_aceitas, categorizacao
+    return palavras_rejeitadas, palavras_aceitas
 
 # Definição do autômato com pilha
 def analise_sintatica(
