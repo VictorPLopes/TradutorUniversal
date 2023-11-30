@@ -38,7 +38,7 @@ def analise_semantica(resultado_sintatico, debug = False):
                 if tabela_variavies[var] is 'logico':
                     # Se houver um leia antes, rejeita
                     if resultado_sintatico[posicao-2][1] == 'leia':
-                        return False, f"Variável {var} não é um tipo válido para leitura."
+                        return False, f"Variável {var} não tem um tipo válido para leitura."
                     # Se houver um compara antes, testa se está comparando corretamente
                     elif resultado_sintatico[posicao-1][1] == 'compara':
                         # Para o tipo lógico, só é permitido comparar igualdade ou diferença com outro lógico ou com verdadeiro ou falso
@@ -70,7 +70,7 @@ def analise_semantica(resultado_sintatico, debug = False):
                         else:
                             return False, "Comparação inválida para variável numérica."
                 # Se o tipo da variável for mensagem
-                elif tabela_variavies[var] is 'msg':
+                elif tabela_variavies[var] is 'caractere':
                     # Se houver um leia antes, aceita
                     if resultado_sintatico[posicao-1][1] == 'leia':
                         continue
@@ -117,14 +117,14 @@ def analise_semantica(resultado_sintatico, debug = False):
                 else:
                     return False, "Atribuição inválida para variável numérica."
             # Se o tipo da variável for mensagem
-            elif tipo == 'msg':
+            elif tipo == 'caractere':
                 # Para o tipo mensagem, é permitido atribuir outra mensagem ou uma variável de mensagem
                 if (resultado_sintatico[posicao+1][1] == 'msg'
                     or (resultado_sintatico[posicao+1][1] == 'var'
-                        and tabela_variavies[resultado_sintatico[posicao+1][0]] == 'msg')):
+                        and tabela_variavies[resultado_sintatico[posicao+1][0]] == 'caractere')):
                     continue
                 else:
-                    return False, "Atribuição inválida para variável de mensagem."
+                    return False, "Atribuição inválida para variável de caractere."
     
     # Se não houver erros, retorna True
     return True, "Análise semântica concluída com sucesso."
