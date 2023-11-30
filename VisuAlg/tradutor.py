@@ -1,43 +1,47 @@
-VERSAO= "2.0.0"
+VERSAO= "2.0.1"
 
 ##função aulixar referente a tradução para a linguagem C
 
 def add_linha(i, var="i", valor="0", ind="0", operacao="+", condicao="i<10"):
 
     nova_linha = [
-        #-----padroes-----
-        "#include <stdio.h>\n",                         #id0
-        "int main() {\n",                               #id1
-        "  return 0;}\n",                               #id2
-        #-----definições-----
-        "#define True 1",                             #id3
-        "#define False 0",                            #id4
-        #-----variaveis------
-        "float "+ var+";\n",                             #id5
-        "float "+ var+"="+ valor+";\n",                  #id6
-        "char" + var+"["+ind+"];\n",                     #id7
-        "char" + var+"[]"+ "'"+valor+"';\n",             #id8
-        "int "+ var+";\n",                      #bool    id9
-        "int "+ var+"= True ;\n",               #bool    id10
-        "int "+ var+"= False ;\n",              #bool    id11
-        #------operações--------
-        operacao+ var,                                  #id12        
-        operacao+ valor,                                #id13
-        "(",                                            #id14
-        ")",                                            #id15
-        #------funcionalidades-------
-        "if("+ condicao +"){\n",                        #id16
-        "else{\n",                                      #id17
-        "while("+ condicao +"){\n",                     #id18
-        "}\n",                                          #id19
-        "",                                             #id20
-    ]
+    #-----padroes-----
+    "#include <stdio.h>\n",  # id0
+    "int main() {\n",       # id1
+    "  return 0;\n",        # id2
+    #-----definições-----
+    "#define True 1\n",     # id3
+    "#define False 0\n",    # id4
+    #-----variaveis------
+    "int " + var + ";\n",                   # id5
+    "int " + var + " = " + valor + ";\n",   # id6
+    "float " + var + ";\n",                 # id7
+    "float " + var + " = " + valor + ";\n", # id8
+    "char " + var + "[" + ind + "];\n",     # id9
+    "char " + var + "[] = '" + valor + "';\n",  # id10
+    "int " + var + ";\n",                    # bool id11
+    "int " + var + " = True;\n",             # bool id12
+    "int " + var + " = False;\n",            # bool id13
+    #------operações--------
+    operacao + var + ";\n",      # id14
+    operacao + valor + ";\n",    # id15
+    "(\n",                       # id16
+    ")\n",                       # id17
+    #------funcionalidades-------
+    "if (" + condicao + ") {\n",        # id18
+    "} else {\n",                        # id19
+    "while (" + condicao + ") {\n",     # id20
+    "for (" + var + " = " + valor + "; " + condicao + "; " + var + "++) {\n",  # id21
+    "}\n",                              # id22
+    ""                                  # id23
+]
+
 
     return nova_linha[i]
 
 
 
-## função referente a criação de template.c a partir das leituras feitas pelo
+## função referente a criação de template.c apartir das leituras feitas pelo
 ## interpretador sintatico e semantico do visualAlg
 
 def add_arquivo_c(resultado_sintatico):
@@ -99,4 +103,3 @@ valor = "2"
 
 
 add_arquivo_c(res)
-
