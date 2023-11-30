@@ -1,5 +1,5 @@
 # Definição da analise semântica
-def analise_semantica(resultado_sintatico):
+def analise_semantica(resultado_sintatico, debug = False):
     tabela_variavies = {}  # dicionário vazio
 
     declara = False # controla a declaração de variáveis
@@ -19,9 +19,15 @@ def analise_semantica(resultado_sintatico):
 
         if resultado_sintatico[posicao][0] == 'inicio':
             declara = False  # finaliza a busca
+            if debug:
+                print("Tabela de variáveis:\n", tabela_variavies)
         
         if declara: # se estiver declarando variável
             tabela_variavies[resultado_sintatico[posicao][0]] = resultado_sintatico[posicao+1][0] # adiciona a variável e seu tipo na tabela
+            
+        # Se o debug estiver ativado, imprime o lexema e o token da posição atual
+        if debug:
+            print(resultado_sintatico[posicao])
             
         # Quando lê uma variável
         elif resultado_sintatico[posicao][1] == 'var':

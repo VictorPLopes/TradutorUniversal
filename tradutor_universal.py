@@ -153,7 +153,7 @@ while True:
                                     print("\nAceito (Léxico e Sintático)")
                                     # Se o programa for aceito, chama a função para análise semântica
                                     analisador_semantico = importlib.import_module(caminho_pasta+"/analise_semantica") # Importa o módulo do analisador semântico
-                                    resultado_semantico = analisador_semantico.analise_semantica(resultado[1]) # Chama a função de análise semântica
+                                    resultado_semantico = analisador_semantico.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
                                     print(f"\n{resultado_semantico[1]}")
                                     # Se houver erros na análise semântica
                                     if not resultado_semantico[0]:
