@@ -38,7 +38,7 @@ def analise_semantica(resultado_sintatico, debug = False):
                 if tabela_variavies[var] is 'logico':
                     # Se houver um leia antes, rejeita
                     if resultado_sintatico[posicao-2][1] == 'leia':
-                        return False, f"Variável {var} não é um tipo válido para leitura."
+                        return False, f"Variável {var} não tem um tipo válido para leitura."
                     # Se houver um compara antes, testa se está comparando corretamente
                     elif resultado_sintatico[posicao-1][1] == 'compara':
                         # Para o tipo lógico, só é permitido comparar igualdade ou diferença com outro lógico ou com verdadeiro ou falso
