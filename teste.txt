@@ -1,6 +1,71 @@
-algoritmo
-var
+algoritmo "teste"
+var 
+    a real
+    b inteiro
+    e inteiro
+    c logico
+    d logico
+    f real
+    g inteiro
+    positivo caractere
+    nome caractere
+    negativo caractere
+
 inicio
+leia(a)
+leia (b)
+leia(nome)
+
+escreva(a)
+escreva("oi")
+
+a = 20.6
+b = 1
+a = b
+negativo = "negativo"
+positivo = "positivo"
+nome = "boneco de neve"
+c = verdadeiro
+d = falso
+a = a + 50
+a = (b + a) * 30
+f = 2
+g = 10
+
+se a > 10 entao
+    escreva(nome)
+fimse
+
+se b < 10 entao
+    escreva(positivo)
+senao
+    escreva(negativo)
+fimse
+
+se a == 20 entao
+    escreva(a)
+
+    se b <> 10 entao
+        escreva(b)
+    fimse
+fimse
+
+para b de 1 ate 10 faca
+    escreva(nome)
+fimpara
+
+enquanto f <= 10 faca 
+    escreva(f)
+    f = f + 1
+fimenquanto
+
+enquando g >= 2 faca
+    escreva(g)
+    g = g - 1
+fimenquanto
+
+
+
 
 
 fimalgoritmo
