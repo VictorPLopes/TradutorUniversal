@@ -62,6 +62,8 @@ def condicional(i, var='a', valor="5", express = " x + 1"):
     var + "!=" + var,   #id15
     var + "!=" + valor, #id16
     valor + "!=" + var, #id17
+    "&&",               #id18
+    "||"                #id19
 ]
     
     return cond[i]
@@ -114,6 +116,24 @@ def add_arquivo_c(resultado_sintatico):
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
+
+        ##elif resultado_sintatico[posicao][0] == 'leia':
+
+        ##elif resultado_sintatico[posicao][0] == 'escreve':
+
+        ##elif resultado_sintatico[posicao][0] == 'se':
+
+        ##elif resultado_sintatico[posicao][0] == 'fimse':
+            
+        ##elif resultado_sintatico[posicao][0] == 'senao':
+
+        ##elif resultado_sintatico[posicao][0] == 'enquanto':
+            
+        ##elif resultado_sintatico[posicao][0] == 'fimenquanto':
+
+        ##elif resultado_sintatico[posicao][0] == 'para':
+        
+        ##elif resultado_sintatico[posicao][0] == 'fimpara':
 
 
         elif resultado_sintatico[posicao][0] == 'fimalgoritmo':
