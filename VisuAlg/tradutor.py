@@ -2,60 +2,67 @@ VERSAO= "2.0.1"
 
 ##função aulixar referente a tradução para a linguagem C
 
-def add_linha(i, var="i", valor="0", ind="100", operacao="+", condicao="i<10"):
+def add_linha(i, var="i", valor="0", ind="100", operacao="+", condicao="i < 10"):
 
     nova_linha = [
     #-----padroes-----
-    "#include <stdio.h>\n",  # id0
-    "int main() {\n",       # id1
-    "  return 0;\n",        # id2
+    "#include <stdio.h>\n",                         # id0
+    "int main() {\n",                               # id1
+    "  return 0;\n",                                # id2
     #-----definições-----
-    "#define True 1\n",     # id3
-    "#define False 0\n",    # id4
+    "#define True 1\n",                             # id3
+    "#define False 0\n",                            # id4
     #-----variaveis------
-    "int " + var + ";\n",                   # id5
-    var + " = " + valor + ";\n",            # id6
-    "float " + var + ";\n",                 # id7
-    var + " = " + valor + ";\n",            # id8
-    "char " + var + "[" + ind + "];\n",     # id9
-    "char " + var + "[] = '" + valor + "';\n",  # id10
-    "int " + var + ";\n",                    # bool id11
-    var + " = True;\n",             # bool id12
-    var + " = False;\n",            # bool id13
+    "int " + var + ";\n",                           # id5
+    var + " = " + valor,                            # id6
+    "float " + var + ";\n",                         # id7
+    var + " = " + valor,                            # id8
+    "char " + var + "[" + ind + "];\n",             # id9
+    "char " + var + "[] = '" + valor + "';\n",      # id10
+    "int " + var + ";\n",                           # bool id11
+    var + " = True;\n",                             # bool id12
+    var + " = False;\n",                            # bool id13
     #------operações--------
-    operacao + var + ";\n",      # id14
-    operacao + valor + ";\n",    # id15
-    "(\n",                       # id16
-    ")\n",                       # id17
+    operacao + var,                                 # id14
+    operacao + valor,                               # id15
+    "(",                                            # id16
+    ")",                                            # id17
     #------funcionalidades-------
-    "if (" + condicao + ") {\n",        # id18
-    "} else {\n",                        # id19
-    "while (" + condicao + ") {\n",     # id20
+    "if (" + condicao + ") {\n",                    # id18
+    "} else {\n",                                   # id19
+    "while (" + condicao + ") {\n",                 # id20
     "for (" + var + " = " + valor + "; " + condicao + "; " + var + "++) {\n",  # id21
-    "}\n",                              # id22
-    ""                                  # id23
+    "}\n",                                          # id22
+    ";\n"                                           # id23
 ]
 
 
     return nova_linha[i]
 
-def condicional(i, var='a', valor="5"):
+## Lista de condicionais
+
+def condicional(i, var='a', valor="5", express = " x + 1"):
     cond=[
     var + ">" + var,    #id0
     var + ">" + valor,  #id1
-    var + "<" + var,    #id2
-    var + "<" + valor,  #id3
-    var + ">=" + var,   #id4
-    var + ">=" + valor, #id5
-    var + "<=" + var,   #id6
-    var + "<=" + valor, #id7
-    var + "==" + var,   #id8
-    var + "==" + valor, #id9
-    var + "!=" + var,   #id10
-    var + "!=" + valor, #id11
+    valor + ">" + var,  #id2
+    var + "<" + var,    #id3
+    var + "<" + valor,  #id4
+    valor + "<" + var,  #id5
+    var + ">=" + var,   #id6
+    var + ">=" + valor, #id7
+    valor + ">=" + var, #id8
+    var + "<=" + var,   #id9
+    var + "<=" + valor, #id10
+    valor + "<=" + var, #id11
+    var + "==" + var,   #id12
+    var + "==" + valor, #id13
+    valor + "==" + var, #id14
+    var + "!=" + var,   #id15
+    var + "!=" + valor, #id16
+    valor + "!=" + var, #id17
 ]
-
-
+    
     return cond[i]
 
 ## função referente a criação de template.c apartir das leituras feitas pelo
