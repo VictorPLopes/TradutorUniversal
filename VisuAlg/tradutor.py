@@ -1,4 +1,4 @@
-VERSAO= "2.0.1"
+VERSAO= "2.0.4"
 
 ##função aulixar referente a tradução para a linguagem C
 
