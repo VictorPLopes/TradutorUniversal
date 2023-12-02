@@ -82,6 +82,7 @@ def analise_sintatica(
             estado = 'qf'
         # se eu li a cadeia pórem a pilha não estiver vazia não vou para qf e a cadeia rejeita
         if estado != 'qf':
+            print(f"Sintáxe rejeitada: pilha: {pilha} cadeia: {cadeia}")
             return False
 
     # caso leia uma terminal na cadeia não existe nenhuma transição definida para esse terminal
