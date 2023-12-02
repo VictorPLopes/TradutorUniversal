@@ -6,37 +6,49 @@ def add_linha(i, var="i",var_2 = "y", valor="0", ind="100", operacao="+", condic
 
     nova_linha = [
     #-----padroes-----
-    "#include <stdio.h>\n",                         # id0
-    "int main() {\n",                               # id1
-    "  return 0;\n",                                # id2
-    #-----definições-----
-    "#define True 1\n",                             # id3
-    "#define False 0\n",                            # id4
+    "#include <stdio.h>\n",            # id0
+    "int main() {\n",                  # id1
+    "  return 0;\n",                   # id2
+    
+    #-----definicoes-----
+    "#define True 1\n",                # id3
+    "#define False 0\n",               # id4
+    
     #-----variaveis------
-    "int " + var + ";\n",                           # id5
-    var + " = " + valor,                            # id6
-    var + " = " + var_2,                            # id7
-    "float " + var + ";\n",                         # id8
-    "char " + var + "[" + ind + "];\n",             # id9
-    "char " + var + "[] = '" + valor + "';\n",      # id10
-    "int " + var + ";\n",                           # bool id11
-    var + " = True;\n",                             # bool id12
-    var + " = False;\n",                            # bool id13
-    #------operações--------
-    operacao + var,                                 # id14
-    operacao + valor,                               # id15
-    "(",                                            # id16
-    ")",                                            # id17
+    "int " + var + ";\n",              # id5
+    var + " = " + valor,               # id6
+    var + " = " + var_2,               # id7
+    "float " + var + ";\n",            # id8
+    "char " + var + "[" + ind + "];\n",# id9
+    "char " + var + "[] = '" + valor + "';\n", # id10
+    "int " + var + ";\n",              # bool id11
+    var + " = True;\n",                # bool id12
+    var + " = False;\n",               # bool id13
+    
+    #------operacoes--------
+    operacao + var,                    # id14
+    operacao + valor,                  # id15
+    "(",                               # id16
+    ")",                               # id17
+    
     #------funcionalidades-------
-    "if (" + condicao + ") {\n",                    # id18
-    "} else {\n",                                   # id19
-    "while (" + condicao + ") {\n",                 # id20
-    "for (",                                        # id21
-    ";"+ var + "++){\n",                            # id22
-    "}\n",                                          # id23
-    ";\n",                                          # id24
-    ";"                                             # id25
+    'scanf("',                         # id18
+    "%d",                              # id19
+    "%f",                              # id20
+    "%s",                              # id21
+    "%c",                              # id22
+    '", &',                            # id23
+    "printf(" + var + ");"             # id24
+    "if (" + condicao + ") {\n",       # id25
+    "} else {\n",                      # id26
+    "while (" + condicao + ") {\n",    # id27
+    "for (",                           # id28
+    ";"+ var + "++){\n",               # id29
+    "}\n",                             # id30
+    ";\n",                             # id31
+    ";"                                # id32
 ]
+
 
     return nova_linha[i]
 
@@ -119,18 +131,35 @@ def add_arquivo_c(resultado_sintatico):
 
         ##elif resultado_sintatico[posicao][0] == 'leia':
 
-        ##elif resultado_sintatico[posicao][0] == 'escreve':
+        elif resultado_sintatico[posicao][0] == 'escreve':
+
+            linha.append(add_linha(24, var= resultado_sintatico[posicao+1][1]))
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
 
         ##elif resultado_sintatico[posicao][0] == 'se':
             
-        ##elif resultado_sintatico[posicao][0] == 'senao':
+        elif resultado_sintatico[posicao][0] == 'senao':
+
+            linha.append(add_linha(26))
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
 
         ##elif resultado_sintatico[posicao][0] == 'enquanto':
             
         ##elif resultado_sintatico[posicao][0] == 'para':
         
-        ##elif resultado_sintatico[posicao][0] == 'fimenquanto' || elif resultado_sintatico[posicao][0] == 'fimpara' || resultado_sintatico[posicao][0] == 'fimse':
+        elif resultado_sintatico[posicao][0] == 'fimenquanto' or resultado_sintatico[posicao][0] == 'fimpara' or resultado_sintatico[posicao][0] == 'fimse':
+            
+            linha.append(add_linha(30))
 
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
 
         elif resultado_sintatico[posicao][0] == 'fimalgoritmo':
 
