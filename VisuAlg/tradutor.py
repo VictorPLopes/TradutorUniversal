@@ -38,15 +38,16 @@ def add_linha(i, var="i",var_2 = "y", valor="0", ind="100", operacao="+", condic
     "%s",                              # id21
     "%c",                              # id22
     '", &',                            # id23
-    "printf(" + var + ");"             # id24
-    "if (" + condicao + ") {\n",       # id25
-    "} else {\n",                      # id26
-    "while (" + condicao + ") {\n",    # id27
-    "for (",                           # id28
-    ";"+ var + "++){\n",               # id29
-    "}\n",                             # id30
-    ";\n",                             # id31
-    ";"                                # id32
+    "printf( "                         # id24
+    ","+ var + ");"                    # id25
+    "if (" + condicao + ") {\n",       # id26
+    "} else {\n",                      # id27
+    "while (" + condicao + ") {\n",    # id28
+    "for (",                           # id29
+    ";"+ var + "++){\n",               # id30
+    "}\n",                             # id31
+    ";\n",                             # id32
+    ";"                                # id33
 ]
 
 
@@ -105,7 +106,6 @@ def add_arquivo_c(resultado_sintatico):
             if resultado_sintatico[posicao][1] == 'var':
 
                 while(resultado_sintatico[posicao+1][0] != 'inicio'):
-                    linha.append(add_linha())
                     if resultado_sintatico[posicao][0]== "inteiro":
                         linha.append(add_linha(5,resultado_sintatico[posicao][1]))
                     elif resultado_sintatico[posicao][0]== "real":
@@ -143,7 +143,7 @@ def add_arquivo_c(resultado_sintatico):
             
         elif resultado_sintatico[posicao][0] == 'senao':
 
-            linha.append(add_linha(26))
+            linha.append(add_linha(27))
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
@@ -155,7 +155,7 @@ def add_arquivo_c(resultado_sintatico):
         
         elif resultado_sintatico[posicao][0] == 'fimenquanto' or resultado_sintatico[posicao][0] == 'fimpara' or resultado_sintatico[posicao][0] == 'fimse':
             
-            linha.append(add_linha(30))
+            linha.append(add_linha(31))
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
