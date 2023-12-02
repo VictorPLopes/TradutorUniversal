@@ -122,18 +122,14 @@ def add_arquivo_c(resultado_sintatico):
         ##elif resultado_sintatico[posicao][0] == 'escreve':
 
         ##elif resultado_sintatico[posicao][0] == 'se':
-
-        ##elif resultado_sintatico[posicao][0] == 'fimse':
             
         ##elif resultado_sintatico[posicao][0] == 'senao':
 
         ##elif resultado_sintatico[posicao][0] == 'enquanto':
             
-        ##elif resultado_sintatico[posicao][0] == 'fimenquanto':
-
         ##elif resultado_sintatico[posicao][0] == 'para':
         
-        ##elif resultado_sintatico[posicao][0] == 'fimpara':
+        ##elif resultado_sintatico[posicao][0] == 'fimenquanto' || elif resultado_sintatico[posicao][0] == 'fimpara' || resultado_sintatico[posicao][0] == 'fimse':
 
 
         elif resultado_sintatico[posicao][0] == 'fimalgoritmo':
