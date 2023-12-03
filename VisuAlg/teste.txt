@@ -19,7 +19,7 @@ algoritmo
         leia ( nome )
 
         escreva ( a )
-        escreva ( "oi" )
+        escreva ( 'oi' )
 
         a = 20.6
         b = 1
