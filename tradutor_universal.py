@@ -2,6 +2,8 @@ import csv  # Importa a biblioteca para trabalhar com arquivos CSV
 import json  # Importa a biblioteca para trabalhar com arquivos JSON
 import PySimpleGUI as sg  # Importa a biblioteca para trabalhar com a interface gráfica
 import importlib # Importa a biblioteca para trabalhar com a importação de módulos
+import importlib.util # Importa a biblioteca para trabalhar com a importação de módulos
+import sys  # Importa a biblioteca para trabalhar com o sistema
 
 import analisadores  # Importa o módulo analisadores
 
@@ -47,10 +49,10 @@ itens_menu = [["&Arquivo", ["&Novo", "---", "A&brir", "&Salvar", "---", "Sair"]]
 # Definição do layout
 sg.theme("Topanga")  # Define o tema da interface gráfica
 layout = [[sg.Menu(itens_menu)],
-          [sg.Checkbox('Habilitar saída de debug', default=False, key="cb_debug")],
+          [sg.Checkbox('Habilitar saída de debug', default=False, key="cb_debug"), sg.Button("Salvar Saída", size=(10, 1), key="bt_salvar")],
           [sg.Text("Entrada", size=(72, 1)), sg.Text("Saída")],
-          [sg.Multiline("", key="entrada", size=(80, 40)), sg.Output(key="saida", size=(80, 40))],
-          [sg.StatusBar(f"TradutorUniversal {VERSAO} - Reconhecedor de palavras, analisador e tradutor para C | Por Rodolfo H. R. Engelmann, Victor P. Lopes e Wilson B. R. Luo", relief=sg.RELIEF_SUNKEN, size=(80, 1))]]  # Define o layout da interface gráfica
+          [sg.Multiline("", key="entrada", size=(80, 40)), sg.Output(key="saida", size=(80, 40), )],
+          [sg.StatusBar(f"TradutorUniversal {VERSAO} - Reconhecedor de palavras, analisador e tradutor modular | Por Rodolfo H. R. Engelmann, Victor P. Lopes e Wilson B. R. Luo", relief=sg.RELIEF_SUNKEN, size=(80, 1))]]  # Define o layout da interface gráfica
 
 # Cria a janela
 janela = sg.Window(f"TradutorUniversal {VERSAO}", layout, finalize=True)
@@ -87,11 +89,21 @@ while True:
                     sg.popup_error(f"Erro ao abrir o arquivo:\n{e}", title="Erro")  # Exibe uma mensagem de erro
                     
         case "Salvar":  # Se o evento for salvar
-            caminho_arquivo = sg.popup_get_file("Selectione o arquivo de texto", title="Salvar", save_as=True,)  # Abre a janela para selecionar o arquivo
+            caminho_arquivo = sg.popup_get_file("Selecione o local para salvar o texto", title="Salvar", save_as=True,)  # Abre a janela para selecionar o arquivo
             if caminho_arquivo:  # Se o usuário selecionou um arquivo
                 try:  # Tenta abrir o arquivo
                     with open(caminho_arquivo, "w") as arquivo:  # Abre o arquivo
                         arquivo.writelines(valores["entrada"])  # Escreve o conteúdo da entrada no arquivo
+                except Exception as e:  # Se ocorrer uma exceção
+                    sg.popup_error(f"Erro ao salvar o arquivo:\n{e}", title="Erro")  # Exibe uma mensagem de erro
+        
+        case "bt_salvar":  # Se o evento for salvar saída
+            caminho_arquivo = sg.popup_get_file("Selecione o local para salvar o texto", title="Salvar", save_as=True,)  # Abre a janela para selecionar o arquivo
+            if caminho_arquivo:  # Se o usuário selecionou um arquivo
+                try:  # Tenta abrir o arquivo
+                    with open(caminho_arquivo, "w") as arquivo:  # Abre o arquivo
+                        texto_saida = janela["saida"].get()  # type: ignore # Armazena o conteúdo da saída
+                        arquivo.writelines(texto_saida)  # Escreve o conteúdo da saída no arquivo
                 except Exception as e:  # Se ocorrer uma exceção
                     sg.popup_error(f"Erro ao salvar o arquivo:\n{e}", title="Erro")  # Exibe uma mensagem de erro
                     
@@ -152,15 +164,20 @@ while True:
                                 if analisadores.analise_sintatica(resultado[1], json.load(arquivo_transicao_pilha), debug=debug): # Chama a função e exibe o resultado
                                     print("\nAceito (Léxico e Sintático)")
                                     # Se o programa for aceito, chama a função para análise semântica
-                                    analisador_semantico = importlib.import_module(caminho_pasta+"/analise_semantica") # Importa o módulo do analisador semântico
-                                    resultado_semantico = analisador_semantico.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
+                                    
+                                    # Cria um módulo
+                                    spec = importlib.util.spec_from_file_location("analise_semantica", caminho_pasta+"/analise_semantica.py")
+                                    module = importlib.util.module_from_spec(spec)  # type: ignore # Add type hint to spec parameter
+                                    sys.modules["analise_semantica"] = module
+                                    spec.loader.exec_module(module)  # type: ignore # Add type hint to spec parameter
+                                
+                                    resultado_semantico = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
                                     print(f"\n{resultado_semantico[1]}")
                                     # Se houver erros na análise semântica
                                     if not resultado_semantico[0]:
                                         print("\nRejeitado (Semântico)")
                                     else:
-                                        print("\nAceito (Semântico)")
-                                        # TODO: Chamar o tradutor
+                                        print("\nAceito (Semântico, Léxico e Sintático)")
                                 else:
                                     print("Rejeitado (Sintático)")
                         except Exception as e:  # Se ocorrer uma exceção

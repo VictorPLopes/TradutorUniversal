@@ -9,6 +9,11 @@ def analise_lexica(
     palavras_reservadas="qf1",
     debug=False,
 ):
+    if not tokens:  # Se não for feita a análise léxica
+        print("\nIniciando análise simples...")
+    else:  # Se for feita a análise léxica
+        print("\nIniciando análise léxica...")
+    
     palavras_aceitas = []  # Lista de palavras aceitas, inicialmente vazia
     palavras_rejeitadas = []  # Lista de palavras rejeitadas, inicialmente vazia
     
@@ -63,8 +68,13 @@ def analise_sintatica(
     estado="q1", # as trnsição do autômato com pilha ocorrem no estado q1
     debug=False
 ):
+    print("\nIniciando análise sintática...")
+    
     # a transição de q0 para q1 acrescenta a variável S no topo pilha
     pilha = ['S']
+    
+    # Terminal
+    terminal = None
 
     try:
         # vai percorrer os terminais da cadeia de entrada sempre buscando uma transição para o terminal
@@ -82,11 +92,12 @@ def analise_sintatica(
             estado = 'qf'
         # se eu li a cadeia pórem a pilha não estiver vazia não vou para qf e a cadeia rejeita
         if estado != 'qf':
-            print(f"Sintáxe rejeitada: pilha: {pilha} cadeia: {cadeia}")
+            print(f"Sintáxe rejeitada: pilha: {pilha} terminal: {terminal}")
             return False
 
     # caso leia uma terminal na cadeia não existe nenhuma transição definida para esse terminal
     # a leitura de terminais da cadeia pára
     except:
+        print(f"Sintáxe rejeitada: pilha: {pilha} terminal: {terminal}")
         return False
     return True
