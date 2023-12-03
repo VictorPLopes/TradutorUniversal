@@ -127,4 +127,4 @@ def analise_semantica(resultado_sintatico, debug = False):
                     return False, "Atribuição inválida para variável de caractere."
     
     # Se não houver erros, retorna True
-    return True, "Análise semântica concluída com sucesso."
+    return True, "Análise semântica concluída com sucesso.", tabela_variavies
