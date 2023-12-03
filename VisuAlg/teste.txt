@@ -27,7 +27,7 @@ algoritmo
         a = b
         negativo = "negativo"
         positivo = "positivo"
-        nome = "boneco de neve"
+        nome = "boneco_de_neve"
         c = verdadeiro
         d = falso
         a = a + 50
