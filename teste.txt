@@ -14,9 +14,13 @@ var
 
 inicio
 leia(a)
-leia (b)
-leia(nome)
+escreva(a)
 
+leia(b)
+escreva(b)
+
+leia(nome)
+escreva(nome)
 
 a = 20.6
 b = 1
