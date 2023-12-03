@@ -13,83 +13,78 @@ var
     negativo caractere
 
 inicio
-leia(a)
-escreva(a)
+    leia(a)
+    escreva(a)
 
-leia(b)
-escreva(b)
+    leia(b)
+    escreva(b)
 
-leia(nome)
-escreva(nome)
-
-a = 20.6
-b = 1
-a = b
-negativo = "negativo"
-positivo = "positivo"
-nome = "boneco de neve"
-c = verdadeiro
-d = falso
-a = a + 50
-a = (b + a) * 30
-
-se a > 10 entao
+    leia(nome)
     escreva(nome)
+
+    a = 20.6
+    b = 1
+    a = b
+    negativo = "negativo"
+    positivo = "positivo"
+    nome = "boneco de neve"
+    c = verdadeiro
+    d = falso
+    a = a + 50
+    a = (b + a) * 30
+
+    se a > 10 entao
+        escreva(nome)
+        se b < 10 entao
+            escreva(positivo)
+        senao
+            escreva(negativo)
+        fimse
+    fimse
+
+    a = 1
+    h = 4
+    g = 6
     se b < 10 entao
+        escreva(b)
         escreva(positivo)
+        se a == 1
+            escreva(a)
+            escreva(positivo)
+            se h <> 2
+                escreva(h)
+                se g == 6
+                    escreva(g)
+                    f = 2
+                    enquanto f <= 10 faca 
+                        escreva(f)
+                        f = f + 1
+                    fimenquanto
+                senao
+                    escreva(negativo)
+                fimse
+            fimse
+        fimse        
     senao
         escreva(negativo)
     fimse
-fimse
 
-a = 1
-h = 4
-g = 6
-se b < 10 entao
-    escreva(b)
-    escreva(positivo)
-    se a == 1
+    a = 20
+    b = 10
+    se a == 20 entao
         escreva(a)
-        escreva(positivo)
-        se h <> 2
-            escreva(h)
-            se g == 6
+        se b <> 10 entao
+            escreva(b)
+            g = 10
+            enquando g >= 2 faca
                 escreva(g)
-            senao
-                escreva(negativo)
-            fimse
+                g = g - 1
+            fimenquanto
+            b = 1
+            para b de 1 ate 10 faca
+                escreva(nome)
+            fimpara
         fimse
-    fimse        
-senao
-    escreva(negativo)
-fimse
-
-a = 20
-b = 10
-se a == 20 entao
-    escreva(a)
-
-    se b <> 10 entao
-        escreva(b)
     fimse
-fimse
-
-b = 1
-para b de 1 ate 10 faca
-    escreva(nome)
-fimpara
-
-f = 2
-enquanto f <= 10 faca 
-    escreva(f)
-    f = f + 1
-fimenquanto
-
-g = 10
-enquando g >= 2 faca
-    escreva(g)
-    g = g - 1
-fimenquanto
-
 
 fimalgoritmo
