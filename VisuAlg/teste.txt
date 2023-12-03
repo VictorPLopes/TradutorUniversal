@@ -55,7 +55,7 @@ algoritmo
         se ( a == 20 ) entao
             escreva ( a )
 
-            se ( b <> a ) entao
+            se ( ( b <> a ) e ( d == verdadeiro ) ) entao
                 escreva ( b )
             senao se ( c <> d ) entao
                 leia ( b )
@@ -68,7 +68,7 @@ algoritmo
             para h de 0 ate 8 faca
                 escreva ( b )
             fimpara
-            enquanto ( i <= 10 ) faca 
+            enquanto ( ( i <= 10 ) ou ( b < 5 ) ) faca 
                 escreva ( i )
                 i = ( i + 1 )
             fimenquanto

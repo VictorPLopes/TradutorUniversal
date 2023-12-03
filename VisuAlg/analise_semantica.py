@@ -118,7 +118,7 @@ def analise_semantica(resultado_sintatico, debug=False):
                         continue
                     # Se houver um compara antes, rejeita
                     elif resultado_sintatico[posicao-1][1] == 'compara':
-                        return False, f"A variável {var} não pode ser comparada com {resultado_sintatico[posicao-2][0]}. Ela só pode ser comparada com outra variável de caractere ou com uma mensagem."
+                        return False, f"A variável {var} é do tipo caractere e não pode ser comparada com {resultado_sintatico[posicao-2][0]}."
                     
             else:
                 return False, f"Variável {var} não declarada."
