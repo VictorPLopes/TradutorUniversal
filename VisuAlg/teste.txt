@@ -1,7 +1,6 @@
 algoritmo
     var a real
         b inteiro
-        e inteiro
         c logico
         d logico
         f real
