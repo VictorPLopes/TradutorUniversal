@@ -1,5 +1,11 @@
 VERSAO= "2.0.4"
 
+##----flags-----
+WT = 0
+RD = 0
+
+
+
 ##função aulixar referente a tradução para a linguagem C
 
 def add_linha(i, var="i",var_2 = "y", valor="0", ind="100", operacao="+", condicao="i < 10"):
@@ -9,46 +15,34 @@ def add_linha(i, var="i",var_2 = "y", valor="0", ind="100", operacao="+", condic
     "#include <stdio.h>\n",            # id0
     "int main() {\n",                  # id1
     "  return 0;\n",                   # id2
-    
     #-----definicoes-----
     "#define True 1\n",                # id3
     "#define False 0\n",               # id4
-    
-    #-----variaveis------
+     #-----variaveis------
     "int " + var + ";\n",              # id5
-    var + " = " + valor,               # id6
-    var + " = " + var_2,               # id7
-    "float " + var + ";\n",            # id8
-    "char " + var + "[" + ind + "];\n",# id9
-    "char " + var + "[] = '" + valor + "';\n", # id10
-    "int " + var + ";\n",              # bool id11
-    var + " = True;\n",                # bool id12
-    var + " = False;\n",               # bool id13
-    
-    #------operacoes--------
-    operacao + var,                    # id14
-    operacao + valor,                  # id15
-    "(",                               # id16
-    ")",                               # id17
-    
+    "float " + var + ";\n",            # id6
+    "char " + var + "[" + ind + "];\n",# id7
     #------funcionalidades-------
-    'scanf("',                         # id18
-    "%d",                              # id19
-    "%f",                              # id20
-    "%s",                              # id21
-    "%c",                              # id22
-    '", &',                            # id23
-    "printf( "                         # id24
-    ","+ var + ");"                    # id25
-    "if (" + condicao + ") {\n",       # id26
-    "} else {\n",                      # id27
-    "while (" + condicao + ") {\n",    # id28
-    "for (",                           # id29
-    ";"+ var + "++){\n",               # id30
-    "}\n",                             # id31
-    ";\n",                             # id32
-    ";"                                # id33
+    'scanf"',                          # id8
+    '%d", &',                          # id9
+    '%f", &',                          # id10
+    '%s", ',                           # id11
+    '%c", &',                          # id12
+    '", &',                            # id13
+    'printf',                          # id14
+    ','+ var + ');\n',                 # id15
+    'if ',                            # id16
+    '} else {',                        # id17
+    'while',                           # id18
+    'for (',                           # id19
+    '; '+ var + '++) {\n',             # id20
+    '{\n',                             # id21
+    '}\n',                             # id22
+    ';\n',                             # id23
+    ';'                                # id24
 ]
+
+
 
 
     return nova_linha[i]
@@ -106,14 +100,12 @@ def add_arquivo_c(resultado_sintatico):
             if resultado_sintatico[posicao][1] == 'var':
 
                 while(resultado_sintatico[posicao+1][0] != 'inicio'):
-                    if resultado_sintatico[posicao][0]== "inteiro":
+                    if resultado_sintatico[posicao][0]== "inteiro" or resultado_sintatico[posicao][0]== "logico":
                         linha.append(add_linha(5,resultado_sintatico[posicao][1]))
                     elif resultado_sintatico[posicao][0]== "real":
-                        linha.append(add_linha(7,resultado_sintatico[posicao][1]))
+                        linha.append(add_linha(6,resultado_sintatico[posicao][1]))
                     elif resultado_sintatico[posicao][0]== "caracter":
-                        linha.append(add_linha(9,resultado_sintatico[posicao][1]))
-                    elif resultado_sintatico[posicao][0]== "logico":
-                        linha.append(add_linha(11,resultado_sintatico[posicao][1]))
+                        linha.append(add_linha(7,resultado_sintatico[posicao][1]))
 
                     prosicao=posicao+1
 
@@ -129,33 +121,83 @@ def add_arquivo_c(resultado_sintatico):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
 
-        ##elif resultado_sintatico[posicao][0] == 'leia':
+        elif resultado_sintatico[posicao][0] == 'leia':
+
+            RD = 1
+
+            linha.append(add_linha(8))
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
 
         elif resultado_sintatico[posicao][0] == 'escreve':
 
-            linha.append(add_linha(24, var= resultado_sintatico[posicao+1][1]))
+            WT = 1
+
+            linha.append(add_linha(14)) 
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
 
-        ##elif resultado_sintatico[posicao][0] == 'se':
+        elif resultado_sintatico[posicao][0] == 'se':
+
+            linha.append(add_linha(16))  
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
             
         elif resultado_sintatico[posicao][0] == 'senao':
 
-            linha.append(add_linha(27))
+            linha.append(add_linha(17))   
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
 
-        ##elif resultado_sintatico[posicao][0] == 'enquanto':
+        elif resultado_sintatico[posicao][0] == 'entao' or resultado_sintatico[posicao][0] == 'faca':
+
+            linha.append(add_linha(21))     
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == 'enquanto':
+
+            linha.append(add_linha(18))    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
             
-        ##elif resultado_sintatico[posicao][0] == 'para':
+        elif resultado_sintatico[posicao][0] == 'para':
+
+            linha.append(add_linha(19))    
+            posicao = posicao + 1
+            while(resultado_sintatico[posicao+1][0] != 'inicio'):
+                
+                if resultado_sintatico[posicao][1]== "var":
+                    linha.append(resultado_sintatico[posicao][0])
+                elif resultado_sintatico[posicao][0]== "de":
+                    linha.append("=")
+                elif resultado_sintatico[posicao][1]== "valor":
+                    linha.append(resultado_sintatico[posicao][0])
+                elif resultado_sintatico[posicao][0]== "ate":
+                    linha.append(";" + resultado_sintatico[posicao-3][0] + "<")
+                elif resultado_sintatico[posicao][0]== "faca":
+                    linha.append(";" + resultado_sintatico[posicao-5][0] + "++ ) {")
+
+                posicao = posicao + 1
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
         
         elif resultado_sintatico[posicao][0] == 'fimenquanto' or resultado_sintatico[posicao][0] == 'fimpara' or resultado_sintatico[posicao][0] == 'fimse':
             
-            linha.append(add_linha(31))
+            linha.append(add_linha(22))
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
@@ -164,6 +206,134 @@ def add_arquivo_c(resultado_sintatico):
         elif resultado_sintatico[posicao][0] == 'fimalgoritmo':
 
             linha.append(add_linha(2)) 
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '(':
+
+            linha.append("(")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == ')':
+
+            linha.append(")")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '>':
+
+            linha.append(">")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '<':
+
+            linha.append("<")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '==':
+
+            linha.append("==")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '=':
+
+            linha.append("=")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '<=':
+
+            linha.append("<=")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '>=':
+
+            linha.append(">=")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '<>':
+
+            linha.append("!=")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '+':
+
+            linha.append("+")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '-':
+
+            linha.append("-")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '*':
+
+            linha.append("*")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == '/':
+
+            linha.append("/")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == 'e':
+
+            linha.append("&&")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+        
+        elif resultado_sintatico[posicao][0] == 'ou':
+
+            linha.append("||")    
+
+            for i in range(len(linha)):
+                with open(nome_arquivo, "a") as arquivo:
+                    arquivo.write(linha[i]+"\n")
+
+        elif resultado_sintatico[posicao][0] == 'msg':
+
+            linha.append(resultado_sintatico[posicao][0] + ";")    
 
             for i in range(len(linha)):
                 with open(nome_arquivo, "a") as arquivo:
