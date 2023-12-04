@@ -1,62 +1,11 @@
-em_leia = False # variavel que indica se esta dentro de um leia
-em_escreva = False # variavel que indica se esta dentro de um escreva
-em_para = False # variavel que indica se esta dentro de um para
 em_var = False # variavel que indica se esta dentro de um var
 em_atrib = False # variavel que indica se esta dentro de um atribuicao
 
 nivel_indentacao = 0 # variavel que indica o nivel de indentacao atual
 
-para_atual = [] # lista que armazena os dados do para atual
+dic_tipos = {"inteiro": "int", "real": "float", "caractere": "char", "logico": "int"}
 
-# Dicionário para tradução de casos onde a tradução é direta, ou seja, a estrutura é a mesma em C e em VisuAlg
-dicionario_traducao_direta = {
-    "algoritmo":"""
-#include <stdio.h>
-
-#define TRUE 1
-#define FALSE 0
-
-""",
-    "inicio": "int main() {\n",
-    "=": "=",
-    "(":"(",
-    ")":")",
-    ">":">",
-    "<":"<",
-    ">=":">=",
-    "<=":"<=",
-    "==":"==",
-    "<>":"!=",
-    "se":"if",
-    "entao": "{\n",
-    "senao": "} else {\n",
-    "fimse": "}",
-    "verdadeiro": "TRUE",
-    "falso": "FALSE",
-    "faca": "{\n",
-    "fimpara": "}",
-    "enquanto": "while",
-    "fimenquanto": "}",
-    "+": "+",
-    "-": "-",
-    "*": "*",
-    "/": "/",
-    "e": "&&",
-    "ou": "||",
-    "fimalgoritmo": "return 0;\n}",
-}
-
-dicionario_scanf_printf = {
-    "inteiro": f"%d",
-    "real": f"%f",
-    "caractere": f"%s"
-}
-
-dicionario_tipos = {
-    "inteiro": "int",
-    "real": "float",
-    "logico": "int"
-}
+dic_strings = {"inteiro": f"%d", "real": f"%f", "caractere": f"%s", "logico": f"%d"}
 
 def get_indentacao():
     global nivel_indentacao
@@ -65,103 +14,132 @@ def get_indentacao():
 # Função que traduz o código de VisuAlg para C
 def tradutor(tabela_classificacao, tabela_variavies):
     # Variáveis globais
-    global em_leia, em_escreva, em_para, em_var, em_caractere, em_atrib, nivel_indentacao
+    global em_var, em_atrib, nivel_indentacao
     
     # Variável que armazena o código traduzido
     codigo = ""
     
+    i = 0 # Variável que armazena o índice da tabela de classificação
+    
     # Para cada palavra na tabela de classificação
-    for palavra in tabela_classificacao:
-        # Se estiver na parte de declaração de variáveis
-        if em_var:
-            # Se chegar no fim da declaração de variáveis
-            if palavra[0] == "inicio":
-                em_var = False
-                codigo += dicionario_traducao_direta[palavra[0]]
-                nivel_indentacao += 1
-                continue
-            # Se estiver declarando uma variável
-            if palavra[1] == "var":
-                # Se for do tipo caractere
-                if tabela_variavies[palavra[0]] == "caractere":
-                    codigo += "char " + palavra[0] + "[50];\n"
-                    continue
-                # Se for do tipo inteiro, real ou lógico
-                codigo += dicionario_tipos[tabela_variavies[palavra[0]]] + " " + palavra[0] + ";\n"
-                continue
+    while i < (len(tabela_classificacao)):
+        # Se a palavra for algoritmo
+        if tabela_classificacao[i][1] == "algoritmo":
+            codigo += "include <stdio.h>\n\n#define verdadeiro 1\n#define false 0\n\n"
         
-        # Se for uma palavra de tradução direta
-        if palavra[0] in dicionario_traducao_direta:
-            # Checa se for atribuição
-            if palavra[0] == "=":
-                em_atrib = True
-            # Checa se está no faça de um para
-            if palavra[0] == "faca" and em_para:
-                nivel_indentacao += 1
-                codigo += para_atual[0] + " = " + para_atual[1] + "; " + para_atual[0] + " <= " + para_atual[2] + "; " + para_atual[0] + "++)"
-                # Limpa a lista do para atual
-                para_atual.clear()
-                em_para = False
-            # Checa se for um se, enquanto ou senão
-            if palavra[0] == "se" or palavra[0] == "enquanto" or palavra[0] == "senao":
-                nivel_indentacao += 1
-            # Checa se for um fimse, fimenquanto, fimpara ou fimalgoritmo
-            if palavra[0] == "fimse" or palavra[0] == "fimenquanto" or palavra[0] == "fimpara" or palavra[0] == "fimalgoritmo":
-                nivel_indentacao -= 1
-            codigo += dicionario_traducao_direta[palavra[0]]
-            # Checa se está em atribuição
-            if em_atrib and palavra[0] == ")":
+        # Se a palavra for var (início da seção de declaracao de variáveis)
+        elif tabela_classificacao[i][0] == "var":
+            em_var = True
+        
+        # Se for uma variável
+        elif tabela_classificacao[i][1] == "var":
+            # Se estiver dentro da seção de declaração de variáveis
+            if em_var:
+                # Se for do tipo caractere
+                if tabela_classificacao[i+1][1] == "caractere":
+                    codigo += dic_tipos[tabela_classificacao[i+1][1]] + " " + tabela_classificacao[i][0] + "[100];\n"
+                else:
+                    codigo += dic_tipos[tabela_classificacao[i+1][1]] + " " + tabela_classificacao[i][0] + ";\n"
+                i += 2 # Pula o tipo da variável
+                continue
+            # Se não estiver dentro da seção de declaração de variáveis
+            # Se for uma atribuição
+            elif tabela_classificacao[i+1][0] == "=":
+                codigo += get_indentacao()
+            codigo += tabela_classificacao[i][0] + " "
+            # Se tiver finalizado uma atribuição
+            if em_atrib and tabela_classificacao[i+1][0] not in ["e", "ou", ")", ">=", "<=", ">", "<", "+", "-", "*", "/", "==", "<>"]:
                 codigo += ";\n"
                 em_atrib = False
+        
+        # Se for inicio
+        elif tabela_classificacao[i][0] == "inicio":
+            codigo += "\nint main() {\n"
+            nivel_indentacao += 1
+            em_var = False
+        
+        # Se for leia
+        elif tabela_classificacao[i][0] == "leia":
+            codigo += get_indentacao() + "scanf(\"" + dic_strings[tabela_variavies[tabela_classificacao[i+2][0]]] + "\", &" + tabela_classificacao[i+2][0] + ");\n"
+            i += 4 # Pula (, variavel, )
             continue
         
-        # Senão, se for a parte de declaração de variáveis
-        if palavra[0] == "var":
-            em_var = True
+        # Se for escreva
+        elif tabela_classificacao[i][0] == "escreva":
+            # Se for uma string (mensagem)
+            if tabela_classificacao[i+2][1] == "msg":
+                codigo += get_indentacao() + "printf(\"" + tabela_classificacao[i+2][0] + "\");\n"
+            # Se for uma variável
+            else:
+                codigo += get_indentacao() + "printf(\"" + dic_strings[tabela_variavies[tabela_classificacao[i+2][0]]] + "\", " + tabela_classificacao[i+2][0] + ");\n"
+            i += 4 # Pula (, variavel, )
             continue
-        # Senão, se for o nome de uma variável
-        if palavra[1] == "var":
-            # Se estiver em um leia
-            if em_leia:
-                codigo += dicionario_scanf_printf[tabela_variavies[palavra[0]]] + ", &" + palavra[0] + ");\n"
-                em_leia = False
-                continue
-            # Se estiver em um escreva
-            if em_escreva:
-                codigo += dicionario_scanf_printf[tabela_variavies[palavra[0]]] + ", " + palavra[0] + ");\n"
-                em_escreva = False
-                continue
-            # Se estiver em um para
-            if em_para:
-                para_atual.append(palavra[0])
-                continue
-            codigo += palavra[0]
+        
+        # Se for um = (atribuição)
+        elif tabela_classificacao[i][0] == "=":
+            codigo += "= "
+            em_atrib = True
+        
+        # Se ler um valor, msg, verdadeiro, falso ou )
+        elif tabela_classificacao[i][1] in ["valor", "msg", "verdadeiro", "falso", ")"]:
+            codigo += tabela_classificacao[i][0] + " "
+            # Se tiver finalizado uma atribuição
+            if em_atrib and tabela_classificacao[i+1][0] not in ["e", "ou", ")", ">=", "<=", ">", "<", "+", "-", "*", "/", "==", "<>"]:
+                codigo += ";\n"
+                em_atrib = False
+        
+        # Se ler um operador <>
+        elif tabela_classificacao[i][0] == "<>":
+            codigo += "!= "
+        
+        # Se ler um operador e
+        elif tabela_classificacao[i][0] == "e":
+            codigo += "&& "
+        
+        # Se ler um operador ou
+        elif tabela_classificacao[i][0] == "ou":
+            codigo += "|| "
+        
+        # Se ler um operador ==, >=, <=, >, <, +, -, *, / ou um (
+        elif tabela_classificacao[i][0] in ["==", ">=", "<=", ">", "<", "+", "-", "*", "/", "("]:
+            codigo += tabela_classificacao[i][0] + " "
+        
+        # Se ler um se
+        elif tabela_classificacao[i][0] == "se":
+            codigo += get_indentacao() + "if "
+        
+        # Se ler um entao ou um faca
+        elif tabela_classificacao[i][0] == "entao" or tabela_classificacao[i][0] == "faca":
+            codigo += " {\n"
+            nivel_indentacao += 1
+        
+        # Se ler um senao
+        elif tabela_classificacao[i][0] == "senao":
+            nivel_indentacao -= 1
+            codigo += get_indentacao() + "} else {\n"
+            nivel_indentacao += 1
+        
+        # Se ler um fimse ou um fimpara ou um fimenquanto
+        elif tabela_classificacao[i][0] in ["fimse", "fimpara", "fimenquanto"]:
+            nivel_indentacao -= 1
+            codigo += get_indentacao() + "}\n"
+        
+        # Se ler um para
+        elif tabela_classificacao[i][0] == "para":
+            codigo += get_indentacao() + f"for ({tabela_classificacao[i+1][0]} = {tabela_classificacao[i+3][0]}; {tabela_classificacao[i+1][0]} <= {tabela_classificacao[i+5][0]}; {tabela_classificacao[i+1][0]}++) "
+            i += 6 # Pula variavel, de, valor, ate e valor
             continue
-        # Senão, se for uma mensagem (string)
-        if palavra[1] == "msg":
-            codigo += palavra[0]
-            continue
-        # Senão, se for um leia
-        if palavra[0] == "leia":
-            em_leia = True
-            codigo += get_indentacao() + "scanf("
-            continue
-        # Senão, se for um escreva
-        if palavra[0] == "escreva":
-            em_escreva = True
-            codigo += get_indentacao() + "printf("
-            continue
-        # Senão, se for um para
-        if palavra[0] == "para":
-            em_para = True
-            codigo += get_indentacao() + "for("
-            continue
-        # Senão, se for um valor inteiro
-        if palavra[1] == "valor":
-            # Se estiver em um para
-            if em_para:
-                para_atual.append(palavra[0])
-                continue
+        
+        # Se ler um enquanto
+        elif tabela_classificacao[i][0] == "enquanto":
+            codigo += get_indentacao() + "while "
+        
+        # Se ler um fimalgoritmo
+        elif tabela_classificacao[i][0] == "fimalgoritmo":
+            codigo += get_indentacao() + "return 0;\n}\n"
+        
+        # Incrementa o índice
+        i += 1
     
     # Retorna o código traduzido
     return codigo
