@@ -44,7 +44,7 @@ def cria_transicao(nome_arquivo, debug=False):
 
 # Definição da interface gráfica
 # Definição da barra de menu
-itens_menu = [["&Arquivo", ["&Novo", "---", "A&brir", "&Salvar", "---", "Sair"]], ["Analisadores", ["Simples", "Léxico", "Sintático", "Semântico"]]]
+itens_menu = [["&Arquivo", ["&Novo", "---", "A&brir", "&Salvar", "---", "Sair"]], ["Analisadores", ["Simples", "Léxico", "Sintático", "Semântico"]], ["Traduzir", ["Executar"]]]
 
 # Definição do layout
 sg.theme("Topanga")  # Define o tema da interface gráfica
@@ -178,6 +178,55 @@ while True:
                                         print("\nRejeitado (Semântico)")
                                     else:
                                         print("\nAceito (Semântico, Léxico e Sintático)")
+                                else:
+                                    print("Rejeitado (Sintático)")
+                        except Exception as e:  # Se ocorrer uma exceção
+                            sg.popup_error(f"Erro:\n{e}", title="Erro")  # Exibe uma mensagem de erro
+                    else:
+                        print("Rejeitado (Léxico)")
+                except Exception as e:  # Se ocorrer uma exceção
+                    sg.popup_error(f"Erro:\n{e}", title="Erro")  # Exibe uma mensagem de erro
+        
+        case "Executar":  # Se o evento for analisador semântico
+            janela["saida"].update("")  # type: ignore # Limpa a saída
+            caminho_pasta = sg.popup_get_folder("Selectione a pasta da linguagem", title="Abrir")  # Abre a janela para selecionar a pasta
+            if caminho_pasta:  # Se o usuário selecionou uma pasta
+                try:  # Tenta abrir o arquivo
+                    with open(caminho_pasta+"/tokens.json") as arquivo_tokens:  # Abre o arquivo
+                        resultado = analisadores.analise_lexica(valores["entrada"].split(), cria_transicao(caminho_pasta+"/transicao.csv"), json.load(arquivo_tokens), debug=debug)  # Chama a função automato e armazena o resultado
+                        print(f"Palavras rejeitadas:\n{resultado[0]}\n\nPalavras aceitas:\n{resultado[1]}")  # Atualiza a saída com o resultado
+                    if not len(resultado[0]):
+                        try:  # Tenta abrir o arquivo
+                            with open(caminho_pasta+"/pilha.json") as arquivo_transicao_pilha: # Abre o arquivo
+                                print() # Pula uma linha
+                                if analisadores.analise_sintatica(resultado[1], json.load(arquivo_transicao_pilha), debug=debug): # Chama a função e exibe o resultado
+                                    print("\nAceito (Léxico e Sintático)")
+                                    # Se o programa for aceito, chama a função para análise semântica
+                                    
+                                    # Cria um módulo
+                                    spec = importlib.util.spec_from_file_location("analise_semantica", caminho_pasta+"/analise_semantica.py")
+                                    module = importlib.util.module_from_spec(spec)  # type: ignore # Add type hint to spec parameter
+                                    sys.modules["analise_semantica"] = module
+                                    spec.loader.exec_module(module)  # type: ignore # Add type hint to spec parameter
+                                
+                                    resultado_semantico = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
+                                    print(f"\n{resultado_semantico[1]}")
+                                    # Se houver erros na análise semântica
+                                    if not resultado_semantico[0]:
+                                        print("\nRejeitado (Semântico)")
+                                    else:
+                                        print("\nAceito (Semântico, Léxico e Sintático)")
+                                        # Chama o tradutor
+                                        janela["saida"].update("") # type: ignore # Limpa a saída
+                                        
+                                        # Cria um módulo
+                                        spec = importlib.util.spec_from_file_location("tradutor", caminho_pasta+"/tradutor.py")
+                                        module = importlib.util.module_from_spec(spec)  # type: ignore # Add type hint to spec parameter
+                                        sys.modules["tradutor"] = module
+                                        spec.loader.exec_module(module) # type: ignore # Add type hint to spec parameter
+                                        
+                                        # Mostra o código traduzido
+                                        print(module.tradutor(resultado[1], resultado_semantico[2]))
                                 else:
                                     print("Rejeitado (Sintático)")
                         except Exception as e:  # Se ocorrer uma exceção

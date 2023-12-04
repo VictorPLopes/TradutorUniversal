@@ -44,15 +44,18 @@ dicionario_traducao_direta = {
     "e": "&&",
     "ou": "||",
     "fimalgoritmo": "return 0;\n}",
-    "inteiro": "int",
-    "real": "float",
-    "logico": "int"
 }
 
 dicionario_scanf_printf = {
     "inteiro": f"%d",
     "real": f"%f",
     "caractere": f"%s"
+}
+
+dicionario_tipos = {
+    "inteiro": "int",
+    "real": "float",
+    "logico": "int"
 }
 
 def get_indentacao():
@@ -84,7 +87,7 @@ def tradutor(tabela_classificacao, tabela_variavies):
                     codigo += "char " + palavra[0] + "[50];\n"
                     continue
                 # Se for do tipo inteiro, real ou lógico
-                codigo += tabela_variavies[palavra[0]] + palavra[0] + ";\n"
+                codigo += dicionario_tipos[tabela_variavies[palavra[0]]] + " " + palavra[0] + ";\n"
                 continue
         
         # Se for uma palavra de tradução direta
@@ -93,11 +96,12 @@ def tradutor(tabela_classificacao, tabela_variavies):
             if palavra[0] == "=":
                 em_atrib = True
             # Checa se está no faça de um para
-            if palavra[0] == "faca":
+            if palavra[0] == "faca" and em_para:
                 nivel_indentacao += 1
                 codigo += para_atual[0] + " = " + para_atual[1] + "; " + para_atual[0] + " <= " + para_atual[2] + "; " + para_atual[0] + "++)"
                 # Limpa a lista do para atual
                 para_atual.clear()
+                em_para = False
             # Checa se for um se, enquanto ou senão
             if palavra[0] == "se" or palavra[0] == "enquanto" or palavra[0] == "senao":
                 nivel_indentacao += 1
@@ -153,7 +157,7 @@ def tradutor(tabela_classificacao, tabela_variavies):
             codigo += get_indentacao() + "for("
             continue
         # Senão, se for um valor inteiro
-        if palavra[1] == "inteiro":
+        if palavra[1] == "valor":
             # Se estiver em um para
             if em_para:
                 para_atual.append(palavra[0])
