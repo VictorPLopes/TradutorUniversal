@@ -78,7 +78,7 @@ def condicional(i, var='a', valor="5", express = " x + 1"):
 ## função referente a criação de template.c apartir das leituras feitas pelo
 ## interpretador sintatico e semantico do visualAlg
 
-def add_arquivo_c(resultado_sintatico, tabela_variaveis):
+def tradutor(resultado_sintatico, tabela_variaveis):
     
     for posicao in range(len(resultado_sintatico)):
 
