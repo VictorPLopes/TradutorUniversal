@@ -96,7 +96,7 @@ def analise_sintatica(
             return False
 
     # caso leia uma terminal na cadeia não existe nenhuma transição definida para esse terminal
-    # a leitura de terminais da cadeia pára
+    # a leitura de terminais da cadeia para
     except:
         print(f"Sintáxe rejeitada: pilha: {pilha} terminal: {terminal}")
         return False
