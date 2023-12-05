@@ -53,7 +53,7 @@ def tradutor(tabela_de_classificação, tabela_variavies):
                 codigo += get_indentacao()
             codigo += tabela_de_classificação[i][0] + " "
             # Se tiver finalizado uma atribuição
-            if em_atrib and tabela_de_classificação[i+1][0] not in ["e", "ou", ")", ">=", "<=", ">", "<", "+", "-", "*", "/", "==", "<>"]:
+            if em_atrib and tabela_de_classificação[i+1][0] not in [")", "+", "-", "*", "/"]:
                 codigo += ";\n"
                 em_atrib = False
         
@@ -95,7 +95,7 @@ def tradutor(tabela_de_classificação, tabela_variavies):
             else:
                 codigo += tabela_de_classificação[i][0] + " "
             # Se tiver finalizado uma atribuição
-            if em_atrib and tabela_de_classificação[i+1][0] not in ["e", "ou", ")", ">=", "<=", ">", "<", "+", "-", "*", "/", "==", "<>"]:
+            if em_atrib and tabela_de_classificação[i+1][0] not in [")", "+", "-", "*", "/"]:
                 codigo += ";\n"
                 em_atrib = False
                 
