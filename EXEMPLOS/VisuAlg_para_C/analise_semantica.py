@@ -79,6 +79,9 @@ def analise_semantica(tabela_de_classificação, debug=False):
                     # Se houver um leia antes, rejeita
                     if tabela_de_classificação[posicao-2][1] == 'leia':
                         return False, f"Variável {var} é do tipo lógico e não pode ser lida."
+                    # Se houver um escreva antes, rejeita
+                    elif tabela_de_classificação[posicao-2][1] == 'escreva':
+                        return False, f"Variável {var} é do tipo lógico e não pode ser escrita."
                     # Se houver um compara antes, testa se está comparando corretamente
                     elif tabela_de_classificação[posicao-1][1] == 'compara':
                         # Para o tipo lógico, só é permitido comparar igualdade ou diferença com outro lógico ou com verdadeiro ou falso

@@ -5,7 +5,7 @@ import importlib # Importa a biblioteca para trabalhar com a importação de mó
 import importlib.util # Importa a biblioteca para trabalhar com a importação de módulos
 import sys  # Importa a biblioteca para trabalhar com o sistema
 
-import analisadores  # Importa o módulo analisadores
+import utils.analisadores as analisadores # Importa o módulo analisadores
 
 
 VERSAO = "1.0.0"  # Versão do programa
