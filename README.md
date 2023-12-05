@@ -61,7 +61,7 @@ Para criar um novo módulo, ou seja, a definição de uma nova linguagem, é nec
    - Arquivo `pilha.json`
 4. Para a Análise Semântica
    - Arquivos da Análise Sintática
-   - Arquivo `analise_semantica.py`
+   - Arquivo `analise_semantica.py` e arquivo vazio de nome `__init__.py`
 5. Para a Tradução
    - Arquivos da Análise Semântica
    - Arquivo `tradutor.py`
