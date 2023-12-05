@@ -171,10 +171,10 @@ while True:
                                     sys.modules["analise_semantica"] = module
                                     spec.loader.exec_module(module)  # type: ignore # Add type hint to spec parameter
                                 
-                                    resultado_semantico = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
-                                    print(f"\n{resultado_semantico[1]}")
+                                    tabela_de_classificação = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
+                                    print(f"\n{tabela_de_classificação[1]}")
                                     # Se houver erros na análise semântica
-                                    if not resultado_semantico[0]:
+                                    if not tabela_de_classificação[0]:
                                         print("\nRejeitado (Semântico)")
                                     else:
                                         print("\nAceito (Semântico, Léxico e Sintático)")
@@ -209,10 +209,10 @@ while True:
                                     sys.modules["analise_semantica"] = module
                                     spec.loader.exec_module(module)  # type: ignore # Add type hint to spec parameter
                                 
-                                    resultado_semantico = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
-                                    print(f"\n{resultado_semantico[1]}")
+                                    tabela_de_classificação = module.analise_semantica(resultado[1], debug=debug) # Chama a função de análise semântica
+                                    print(f"\n{tabela_de_classificação[1]}")
                                     # Se houver erros na análise semântica
-                                    if not resultado_semantico[0]:
+                                    if not tabela_de_classificação[0]:
                                         print("\nRejeitado (Semântico)")
                                     else:
                                         print("\nAceito (Semântico, Léxico e Sintático)")
@@ -226,7 +226,7 @@ while True:
                                         spec.loader.exec_module(module) # type: ignore # Add type hint to spec parameter
                                         
                                         # Mostra o código traduzido
-                                        print(module.tradutor(resultado[1], resultado_semantico[2]))
+                                        print(module.tradutor(resultado[1], tabela_de_classificação[2]))
                                 else:
                                     print("Rejeitado (Sintático)")
                         except Exception as e:  # Se ocorrer uma exceção
