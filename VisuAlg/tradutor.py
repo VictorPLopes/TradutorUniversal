@@ -75,7 +75,7 @@ def condicional(i, var='a', valor="5", express = " x + 1"):
     
     return cond[i]
 
-## função referente a criação de template.c apartir das leituras feitas pelo
+## função referente a criação de saida.c apartir das leituras feitas pelo
 ## interpretador sintatico e semantico do visualAlg
 
 def tradutor(resultado_sintatico, tabela_variaveis):
@@ -339,7 +339,7 @@ def tradutor(resultado_sintatico, tabela_variaveis):
                 with open(nome_arquivo, "a") as arquivo:
                     arquivo.write(linha[i]+"\n")
 
-nome_arquivo = "template.c"
+nome_arquivo = "saida.c"
 
 with open(nome_arquivo, "w") as arquivo:
     arquivo.write("")
